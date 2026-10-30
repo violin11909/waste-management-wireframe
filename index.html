@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<meta name="description" content="ต้นแบบระบบรวมขยะรีไซเคิลที่จุดทิ้งเดินถึง — สะสมให้ถึง 15 กก. เพื่อให้ซาเล้งคุ้มค่ามารับ">
-<title>Bangkok Waste Lab</title>
+<meta name="description" content="จุดทิ้งเคลื่อนที่ — แอปที่เปลี่ยนซาเล้งให้เป็นจุดทิ้งขยะที่นัดหมายได้ ราคาโปร่งใส และมีหลักฐานน้ำหนัก">
+<title>จุดทิ้งเคลื่อนที่</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -17,7 +17,8 @@
     line:'var(--line)', lineStrong:'var(--line-strong)',
     ink:'var(--ink)', ink2:'var(--ink-2)', muted:'var(--muted)',
     accent:'var(--accent)', accentInk:'var(--accent-ink)', accentSoft:'var(--accent-soft)',
-    warn:'var(--warn)', warnSoft:'var(--warn-soft)'
+    warn:'var(--warn)', warnSoft:'var(--warn-soft)',
+    cta:'var(--cta)', ctaInk:'var(--cta-ink)', ctaSoft:'var(--cta-soft)', onCta:'var(--on-cta)'
   }, boxShadow:{ card:'var(--shadow)' } } } };
 </script>
 
@@ -29,8 +30,8 @@
   <header class="sticky top-0 z-20 bg-canvas/95 backdrop-blur border-b border-line">
     <div class="px-5 pt-4 pb-3 flex items-start justify-between gap-3">
       <div>
-        <div class="disp text-[17px] font-bold leading-tight">Bangkok Waste Lab</div>
-        <div class="text-[12.5px] text-muted leading-tight">จุดทิ้งที่คนใช้จริง · เขตปทุมวัน</div>
+        <div class="disp text-[17px] font-bold leading-tight">จุดทิ้งเคลื่อนที่</div>
+        <div class="text-[12.5px] text-muted leading-tight">ซาเล้งรับถึงหน้าบ้าน · เขตปทุมวัน</div>
       </div>
       <div class="flex items-center gap-1.5 shrink-0">
         <button id="btn-big" aria-pressed="false" title="ตัวหนังสือใหญ่"
@@ -48,7 +49,7 @@
         </button>
         <button role="tab" aria-selected="false" data-role="collector"
           class="role-btn rounded-lg py-2 text-[13px] font-semibold transition-colors">
-          <span class="block leading-tight">ซาเล้ง</span>
+          <span class="block leading-tight">ซาเล้ง <span id="tab-badge" class="hidden mono text-[10px] px-1.5 rounded-full align-middle" style="background:var(--cta);color:var(--on-cta)">1</span></span>
           <span class="block text-[10.5px] font-normal opacity-70 leading-tight">Collector</span>
         </button>
         <a href="wireframe.html"
@@ -61,7 +62,7 @@
     </div>
   </header>
 
-  <!-- Resident view -->
+  <!-- ───────────── Resident view ───────────── -->
   <main id="view-resident" class="px-5 py-5 flex flex-col gap-6">
 
     <section id="r-tutorial" class="rounded-2xl border border-line bg-surface shadow-card p-4 flex flex-col gap-3">
@@ -70,234 +71,186 @@
         <span class="text-[10.5px] text-muted">ครั้งแรกเท่านั้น</span>
       </div>
       <ol class="flex flex-col gap-1.5 text-[13px] leading-snug">
-        <li><b class="mono" style="color:var(--accent-ink)">1</b> แยกขวด กระป๋อง ลัง ใส่ถุง</li>
-        <li><b class="mono" style="color:var(--accent-ink)">2</b> เอาไปวางจุดรวมใกล้บ้าน แล้วกด <b>+ เพิ่มขยะของฉัน</b></li>
-        <li><b class="mono" style="color:var(--accent-ink)">3</b> ทั้งจุดครบ 15 กก. ซาเล้งมารับเอง ไม่ต้องรอ</li>
+        <li><b class="mono" style="color:var(--accent-ink)">1</b> เลือกของจากรูปตัวอย่าง นับเป็นถุง ลัง หรือมัด</li>
+        <li><b class="mono" style="color:var(--accent-ink)">2</b> ดูราคาสุทธิ แล้วกด <b>เรียกซาเล้ง</b> หรือตั้งเป็นรอบประจำ</li>
+        <li><b class="mono" style="color:var(--accent-ink)">3</b> วางของหน้าบ้าน ซาเล้งชั่งพร้อมรูปตาชั่ง เงินเข้าพร้อมเพย์</li>
       </ol>
-      <div class="grid grid-cols-3 gap-1.5 text-center text-[11px]">
-        <span class="rounded-lg py-1.5" style="background:var(--accent-soft);color:var(--accent-ink)">🥤 ✓ ขวด PET</span>
-        <span class="rounded-lg py-1.5" style="background:var(--accent-soft);color:var(--accent-ink)">🥫 ✓ กระป๋อง</span>
-        <span class="rounded-lg py-1.5" style="background:var(--accent-soft);color:var(--accent-ink)">📦 ✓ ลัง</span>
-        <span class="rounded-lg py-1.5" style="background:var(--accent-soft);color:var(--accent-ink)">🍾 ✓ ขวดแก้ว</span>
-        <span class="rounded-lg py-1.5" style="background:var(--warn-soft);color:var(--warn)">🧃 ? กล่องนม</span>
-        <span class="rounded-lg py-1.5" style="background:var(--warn-soft);color:var(--warn)">🛍️ ✗ ถุงก๊อบแก๊บ</span>
-      </div>
       <button id="btn-tut" class="rounded-xl py-2.5 text-[13.5px] font-semibold border"
         style="border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink)">เข้าใจแล้ว</button>
     </section>
 
-    <section class="flex flex-col gap-3">
-      <div class="flex items-baseline justify-between">
-        <h2 class="eyebrow">จุดรวมใกล้ที่สุด</h2>
-        <span class="text-[11px] text-muted">เดินได้ &lt; 200 ม.</span>
-      </div>
+    <!-- Compose a request -->
+    <div id="r-compose" class="flex flex-col gap-6">
 
-      <article class="rounded-2xl bg-surface border border-line shadow-card overflow-hidden">
-        <div class="p-5 flex flex-col gap-4">
+      <section class="flex flex-col gap-3">
+        <div class="flex items-baseline justify-between gap-3">
+          <h2 class="eyebrow">มีอะไรจะทิ้ง</h2>
+          <span class="text-[11px] text-muted">แตะรูปเพื่อดูว่ารับ / ไม่รับอะไร</span>
+        </div>
+        <ul id="r-items" class="flex flex-col gap-2"></ul>
 
-          <div class="flex items-start justify-between gap-3">
+        <div class="rounded-xl border border-dashed border-lineStrong bg-surface px-4 py-3 flex flex-col gap-2">
+          <div class="flex items-center justify-between gap-3">
             <div>
-              <h3 class="disp text-[19px] font-bold leading-snug">จุดรวม ซอยจุฬาฯ 12</h3>
-              <p class="text-[12.5px] text-muted leading-snug">ข้างร้านซัก 24 ชม. · เปิด 06:00–22:00</p>
+              <p class="text-[13px] font-semibold">ถ่ายรูปแนบ</p>
+              <p class="text-[11px] text-muted">ไม่บังคับ · ซาเล้งเห็นก่อนรับงาน</p>
             </div>
-            <span class="shrink-0 mono text-[11.5px] px-2.5 py-1 rounded-full bg-sunken border border-line text-ink2">140 ม. · เดิน 2 น.</span>
+            <label class="shrink-0 cursor-pointer rounded-lg px-3 py-2 text-[12.5px] font-semibold border border-line bg-sunken text-ink2">
+              📷 ถ่าย / เลือกรูป
+              <input id="r-photo" type="file" accept="image/*" capture="environment" multiple class="sr-only">
+            </label>
           </div>
-
-          <div class="flex flex-col gap-2.5">
-            <div class="flex items-end justify-between gap-3">
-              <div class="flex items-baseline gap-1.5">
-                <span id="r-kg" class="mono text-[34px] font-medium leading-none tracking-tight">12.0</span>
-                <span class="mono text-[15px] text-muted leading-none">/ 15 kg</span>
-              </div>
-              <span id="r-pill" class="text-[11.5px] font-semibold px-2.5 py-1 rounded-full whitespace-nowrap"></span>
-            </div>
-
-            <div class="relative pt-4">
-              <div id="r-marker" class="marker absolute top-0 bottom-0" style="left:75%">
-                <span class="mono text-[9.5px] text-muted whitespace-nowrap absolute top-0 left-0 -translate-x-1/2">15 kg</span>
-                <span class="absolute top-[14px] bottom-0 w-px" style="background:var(--line-strong)"></span>
-              </div>
-              <div class="relative h-3.5 rounded-full bg-sunken border border-line overflow-hidden flex">
-                <div id="seg-pet"  class="seg h-full" style="width:26%;background:var(--mat-pet)"></div>
-                <div id="seg-alu"  class="seg h-full" style="width:8%;background:var(--mat-alu)"></div>
-                <div id="seg-card" class="seg h-full" style="width:26%;background:var(--mat-card)"></div>
-              </div>
-            </div>
-
-            <p id="r-status" class="text-[13px] leading-snug"></p>
-            <p id="r-status-en" class="text-[11.5px] text-muted leading-snug"></p>
-          </div>
-
-          <div class="grid grid-cols-3 gap-2 border-t border-line">
-            <div class="pt-3 flex flex-col gap-1">
-              <span class="flex items-center gap-1.5 text-[11px] text-muted"><i class="w-2 h-2 rounded-sm" style="background:var(--mat-pet)"></i>PET ใส</span>
-              <span id="lg-pet" class="mono text-[13px]">5.2 kg</span>
-            </div>
-            <div class="pt-3 flex flex-col gap-1">
-              <span class="flex items-center gap-1.5 text-[11px] text-muted"><i class="w-2 h-2 rounded-sm" style="background:var(--mat-alu)"></i>อะลูมิเนียม</span>
-              <span id="lg-alu" class="mono text-[13px]">1.6 kg</span>
-            </div>
-            <div class="pt-3 flex flex-col gap-1">
-              <span class="flex items-center gap-1.5 text-[11px] text-muted"><i class="w-2 h-2 rounded-sm" style="background:var(--mat-card)"></i>กระดาษลัง</span>
-              <span id="lg-card" class="mono text-[13px]">5.2 kg</span>
-            </div>
-          </div>
+          <div id="r-photos" class="hidden grid grid-cols-4 gap-1.5"></div>
         </div>
+      </section>
 
-        <div class="px-5 pb-5">
-          <button id="btn-add" class="w-full rounded-xl px-4 py-3 text-left transition-transform active:scale-[.985]"
-            style="background:var(--accent); color:#fff">
-            <span class="flex items-center justify-between gap-3">
-              <span class="disp text-[15px] font-semibold">+ เพิ่มขยะของฉัน (2 kg)</span>
-              <span class="mono text-[11px] opacity-80">Add my waste</span>
-            </span>
-            <span class="block mt-0.5 text-[11px] opacity-85">3 ถุงแยกจากหอ · PET 0.8 · อะลูฯ 0.3 · กระดาษ 0.9</span>
-          </button>
-          <p id="r-mine" class="mt-2 text-[11.5px] text-muted text-center">วันนี้คุณยังไม่ได้เพิ่มขยะเข้าจุดนี้</p>
-          <button id="btn-share" class="hidden mx-auto mt-1.5 block text-[12px] font-semibold px-3 py-1.5 rounded-full border border-line bg-sunken text-ink2">📤 แชร์ให้เพื่อน</button>
+      <section class="flex flex-col gap-3">
+        <h2 class="eyebrow">ให้มารับเมื่อไหร่</h2>
+        <div id="r-when" class="rounded-2xl bg-surface border border-line shadow-card p-4 flex flex-col gap-3.5"></div>
+      </section>
+
+      <section class="flex flex-col gap-2">
+        <label class="flex items-start gap-3 rounded-xl border border-line bg-surface px-4 py-3 cursor-pointer">
+          <input id="r-door" type="checkbox" checked class="mt-1 w-4 h-4 accent-[var(--accent)]">
+          <span>
+            <span class="block text-[13.5px] font-semibold">วางของไว้หน้าบ้านได้ ไม่ต้องรอ</span>
+            <span class="block text-[11.5px] text-muted">หน้าประตูรั้ว · ซอยจุฬาฯ 12 · ได้ SMS ทุกขั้น</span>
+          </span>
+        </label>
+        <div class="flex items-center justify-between gap-3 rounded-xl border border-line bg-surface px-4 py-3">
+          <span>
+            <span class="block text-[11.5px] text-muted">รับเงินผ่าน</span>
+            <span class="block text-[13.5px] font-semibold">พร้อมเพย์ · <span class="mono">08x-xxx-5678</span></span>
+          </span>
+          <span class="text-[11px] font-semibold px-2 py-1 rounded-full" style="background:var(--accent-soft);color:var(--accent-ink)">✓ ยืนยันแล้ว</span>
         </div>
+      </section>
 
-        <div id="r-badge" class="hidden mx-5 mb-5 rounded-xl px-4 py-3" style="background:var(--accent-soft)">
-          <p class="disp text-[14px] font-semibold" style="color:var(--accent-ink)">🎉 ครบเกณฑ์แล้ว! แจ้งซาเล้งในพื้นที่เรียบร้อย</p>
-          <p class="text-[11.5px] mt-0.5" style="color:var(--accent-ink);opacity:.85">Threshold met! Local Saleng notified.</p>
-        </div>
-        <div id="r-enroute" class="hidden mx-5 mb-5 rounded-xl px-4 py-3 border border-line bg-sunken flex-col gap-3">
-          <div>
-            <p class="text-[13.5px] font-semibold">🛺 ซาเล้งรับงานแล้ว · ถึงจุดใน <span id="r-eta" class="mono">7</span> นาที</p>
-            <p class="text-[11.5px] text-muted mt-0.5">Saleng en route — ยกถุงไปวางได้เลย ไม่ต้องเฝ้าที่จุด</p>
-          </div>
-          <div class="flex items-center gap-3 rounded-lg bg-surface border border-line px-3 py-2.5">
-            <span class="w-11 h-11 rounded-full grid place-items-center text-[20px] shrink-0" style="background:var(--accent-soft)">🧑🏽</span>
-            <span class="min-w-0">
-              <span class="block text-[13.5px] font-semibold">พี่สมชาย ใจดี</span>
-              <span class="block text-[11.5px] text-ink2">สามล้อเครื่อง · <span class="mono">3กข 1234 กทม.</span></span>
-              <span class="block text-[11px] font-semibold" style="color:var(--accent-ink)">✓ ยืนยันตัวตน · สมาคมซาเล้งฯ</span>
-            </span>
-          </div>
-          <div class="grid grid-cols-2 gap-2">
-            <button data-call="app" class="rounded-lg py-2.5 text-[13px] font-semibold" style="background:var(--accent);color:#fff">📞 โทรผ่านแอป</button>
-            <button data-call="phone" class="rounded-lg py-2.5 text-[13px] font-semibold border border-line bg-surface text-ink2">📱 เบอร์มือถือ</button>
-          </div>
-          <p id="r-callnote" class="hidden text-[11.5px] text-muted text-center"></p>
-        </div>
-      </article>
-    </section>
+      <!-- สรุปก่อนเรียก (slide 5) -->
+      <section id="r-summary" class="rounded-2xl bg-surface border border-line shadow-card p-5 flex flex-col gap-4"></section>
 
-    <section class="flex flex-col gap-3">
-      <h2 class="eyebrow">จุดอื่นที่เดินไหว</h2>
-      <ul id="r-others" class="flex flex-col gap-2"></ul>
-    </section>
-
-    <section class="flex flex-col gap-3">
-      <div class="flex items-baseline justify-between gap-3">
-        <h2 class="eyebrow">ราคารับซื้อวันนี้</h2>
-        <span class="text-[11px] text-muted">อัปเดต 4 ก.ย. 2569</span>
-      </div>
-      <div class="rounded-2xl bg-surface border border-line shadow-card overflow-hidden">
-        <div class="overflow-x-auto">
+      <details class="rounded-2xl bg-surface border border-line shadow-card overflow-hidden">
+        <summary class="px-4 py-3 flex items-center justify-between gap-3">
+          <span class="eyebrow">ราคารับซื้อวันนี้</span>
+          <span class="text-[11px] text-muted">อัปเดต 30 ต.ค. 2569 ▾</span>
+        </summary>
+        <div class="overflow-x-auto border-t border-line">
           <table class="w-full text-[13px]">
             <thead>
               <tr class="text-left" style="background:var(--sunken)">
-                <th class="font-semibold px-4 py-2.5 text-[11px] tracking-wide uppercase text-muted">วัสดุ</th>
-                <th class="font-semibold px-3 py-2.5 text-[11px] tracking-wide uppercase text-muted text-right">บาท / กก.</th>
-                <th class="font-semibold px-4 py-2.5 text-[11px] tracking-wide uppercase text-muted text-right">7 วัน</th>
+                <th class="font-semibold px-4 py-2.5 text-[11px] text-muted">วัสดุ</th>
+                <th class="font-semibold px-3 py-2.5 text-[11px] text-muted text-right">คุณได้ /กก.</th>
+                <th class="font-semibold px-4 py-2.5 text-[11px] text-muted text-right">ร้านรับซื้อ</th>
               </tr>
             </thead>
             <tbody id="price-body"></tbody>
           </table>
         </div>
-        <div class="px-4 py-3 border-t border-line flex items-center justify-between gap-3" style="background:var(--sunken)">
-          <div>
-            <p class="text-[11.5px] text-muted leading-tight">ขยะที่คุณเพิ่มวันนี้</p>
-            <p id="r-myvalue" class="mono text-[14px] font-medium leading-tight">0.0 kg ≈ ฿0</p>
-          </div>
-          <p class="text-[10.5px] text-muted text-right max-w-[190px] leading-snug">ใช้เทียบว่าซาเล้งให้ราคายุติธรรมไหม อ้างอิงร้านของเก่าย่านสามย่าน</p>
-        </div>
-      </div>
-    </section>
+        <p class="px-4 py-3 border-t border-line text-[11px] text-muted leading-relaxed" style="background:var(--sunken)">
+          ส่วนต่างกับราคาร้านคือค่าแรงและค่าน้ำมันของซาเล้ง · ขยะทั่วไปคิดถุงละ ฿15 เป็นค่าขนไปจุดทิ้งของ กทม.
+          · ราคาร้านอ้างอิงร้านของเก่าย่านสามย่าน
+        </p>
+      </details>
+    </div>
 
-    <p class="text-[11px] text-muted leading-relaxed pb-2">
-      ทำไมต้องรวมกัน: ขยะจากห้องเดียวน้อยเกินกว่าที่ซาเล้งจะคุ้มค่าน้ำมันมารับ การรวมกันที่จุดเดินถึงทำให้ปริมาณแตะเกณฑ์เรียกรถได้จริง
-    </p>
+    <!-- Track a request (3 steps + SMS) -->
+    <div id="r-track" class="hidden flex-col gap-5"></div>
   </main>
 
-  <!-- Collector view -->
+  <!-- ───────────── Collector view ───────────── -->
   <main id="view-collector" class="hidden px-5 py-5 flex-col gap-6">
-
-    <section class="grid grid-cols-3 gap-2">
-      <div class="rounded-xl bg-surface border border-line p-3 flex flex-col gap-1">
-        <span class="text-[10.5px] text-muted leading-tight">งานพร้อมเก็บ</span>
-        <span id="c-jobs" class="mono text-[20px] font-medium leading-none">2</span>
-      </div>
-      <div class="rounded-xl bg-surface border border-line p-3 flex flex-col gap-1">
-        <span class="text-[10.5px] text-muted leading-tight">น้ำหนักรวม</span>
-        <span id="c-kg" class="mono text-[20px] font-medium leading-none">40.2</span>
-      </div>
-      <div class="rounded-xl bg-surface border border-line p-3 flex flex-col gap-1">
-        <span class="text-[10.5px] text-muted leading-tight">ประเมินได้</span>
-        <span id="c-baht" class="mono text-[20px] font-medium leading-none" style="color:var(--accent-ink)">฿470</span>
-      </div>
-    </section>
+    <section id="c-stats" class="grid grid-cols-2 gap-2"></section>
+    <section id="c-active" class="flex flex-col gap-3"></section>
+    <section id="c-new" class="flex flex-col gap-3"></section>
 
     <section class="flex flex-col gap-3">
       <div class="flex items-baseline justify-between gap-3">
-        <h2 class="eyebrow">คิวงานคุ้มค่า</h2>
-        <span class="text-[11px] text-muted">เรียงตามมูลค่า · รัศมี 3 กม.</span>
+        <h2 class="eyebrow">โปรไฟล์ของฉัน</h2>
+        <span class="text-[11px] text-muted">ลูกค้าและ รปภ. เห็นหน้านี้</span>
       </div>
-      <ul id="c-feed" class="flex flex-col gap-3"></ul>
-    </section>
-
-    <section class="flex flex-col gap-3">
-      <h2 class="eyebrow">ยังไม่ถึงเกณฑ์ · รอปริมาณ</h2>
-      <ul id="c-waiting" class="flex flex-col gap-2"></ul>
-      <p class="text-[11px] text-muted leading-relaxed pb-2">
-        ระบบจะแจ้งเตือนอัตโนมัติเมื่อจุดใดแตะ 15 กก. ตัวเลขรายได้เป็นราคากลางก่อนหักค่าน้ำมันประมาณ ฿30 ต่อเที่ยว
-      </p>
+      <div id="c-profile" class="rounded-2xl bg-surface border border-line shadow-card p-4 flex flex-col gap-3"></div>
     </section>
   </main>
-
-  <!-- Wireframe view (non-functional mock) -->
 </div>
 
 <p class="desknote text-center text-[11.5px] text-muted mt-4">
-  ต้นแบบเชิงโต้ตอบ · สลับมุมมองที่หัวจอ — ขยะที่ผู้ทิ้งเพิ่ม จะไปโผล่ในคิวงานของซาเล้งทันที · ดูโครงร่างทุกหน้าจอได้ที่แท็บ “โครงร่าง”
+  ต้นแบบเชิงโต้ตอบ · กด “เรียกซาเล้ง” ฝั่งผู้ทิ้ง แล้วสลับไปแท็บซาเล้ง — งานจะโผล่ทันที รับ → ชั่ง → เงินเข้า ผู้ทิ้งเห็นทุกขั้น
 </p>
 
 <script>
 (function(){
-  var THRESHOLD = 15;
+  var FEE = 15; // ค่าขนขยะทั่วไป บาท/ถุง
 
-  var MATS = {
-    pet:   { th:'ขวด PET ใส',         en:'PET bottles',    price:9.50,  trend:0.40 },
-    alu:   { th:'กระป๋องอะลูมิเนียม', en:'Aluminium cans', price:48.00, trend:-1.50 },
-    card:  { th:'กระดาษลัง',          en:'Cardboard',      price:3.20,  trend:0.15 },
-    glass: { th:'ขวดแก้วใส',          en:'Clear glass',    price:1.20,  trend:0, note:'รับเฉพาะบางจุด' }
-  };
-
-  var MY_BAGS = { pet:0.8, alu:0.3, card:0.9 };
-
-  var points = [
-    { id:'p1', name:'จุดรวม ซอยจุฬาฯ 12',       place:'ข้างร้านซัก 24 ชม.',  walkM:140,  driveKm:0.9, mix:{pet:5.2, alu:1.6, card:5.2},  job:null },
-    { id:'p2', name:'จุดรวม หอพักสวนหลวง',       place:'ลานจอดรถ อาคาร B',    walkM:320,  driveKm:1.4, mix:{pet:6.4, alu:2.2, card:7.8},  job:null },
-    { id:'p3', name:'จุดรวม ตลาดสามย่าน ล็อค B', place:'หลังแผงผลไม้',        walkM:850,  driveKm:2.1, mix:{pet:8.1, alu:3.4, card:12.3}, job:null },
-    { id:'p4', name:'จุดรวม ซอยเจริญเมือง 4',    place:'หน้าร้านกาแฟหัวซอย',  walkM:540,  driveKm:1.8, mix:{pet:2.6, alu:0.9, card:4.0},  job:null },
-    { id:'p5', name:'จุดรวม ชุมชนบ้านครัวใต้',   place:'ศาลาริมคลอง',         walkM:1600, driveKm:3.2, mix:{pet:3.1, alu:1.2, card:5.9},  job:null }
+  // buy = ซาเล้งจ่ายบ้าน /กก. · shop = ร้านรับซื้อ /กก. (อ้างอิงสามย่าน) · kgPer = กก. ต่อหน่วยโดยประมาณ
+  var ITEMS = [
+    { k:'pet',   th:'ขวดพลาสติก', col:'ขวดพลาสติก', sub:'ขวด PET ใส',        emoji:'🥤', unit:'ถุง', kgPer:2, buy:6.25, shop:9.50,  trend:0.40,
+      ok:'ขวดน้ำดื่ม ขวดน้ำอัดลม (บีบแบนได้)', no:'ขวดขุ่น ขวดน้ำมันพืช' },
+    { k:'card',  th:'กระดาษลัง', col:'ลังกระดาษ',   sub:'พับแบน มัดเชือก',    emoji:'📦', unit:'มัด', kgPer:5, buy:2.00, shop:3.20,  trend:0.15,
+      ok:'กล่องพัสดุ ลังน้ำดื่ม', no:'กล่องเปียก เปื้อนอาหาร/น้ำมัน' },
+    { k:'alu',   th:'กระป๋อง',    col:'กระป๋อง',     sub:'อะลูมิเนียม',        emoji:'🥫', unit:'ถุง', kgPer:1, buy:32.0, shop:48.00, trend:-1.50,
+      ok:'กระป๋องน้ำอัดลม เบียร์', no:'กระป๋องสเปรย์ กระป๋องสี' },
+    { k:'glass', th:'ขวดแก้ว',    col:'ขวดแก้ว',     sub:'ใส ไม่แตก',         emoji:'🍾', unit:'ลัง', kgPer:6, buy:0.80, shop:1.20,  trend:0,
+      ok:'ขวดเครื่องดื่ม ขวดซอส', no:'แก้วแตก กระจก' },
+    { k:'gen',   th:'ขยะทั่วไป',  col:'ขยะทั่วไป',   sub:'มัดปากถุงให้แน่น',   emoji:'🗑️', unit:'ถุง', fee:FEE,
+      ok:'ถุงก๊อบแก๊บ กล่องโฟม เศษทั่วไป', no:'ของมีคม สารเคมี ขยะติดเชื้อ' }
   ];
+  var BY = {}; ITEMS.forEach(function(it){ BY[it.k] = it; });
+  var RECYC = ['pet','card','alu','glass'];
 
-  var home = points[0];
-  var mine = { count:0 };
-
-  function kgOf(p){ return Math.round((p.mix.pet + p.mix.alu + p.mix.card) * 10) / 10; }
-  function bahtOf(p){ return p.mix.pet*MATS.pet.price + p.mix.alu*MATS.alu.price + p.mix.card*MATS.card.price; }
-  function round5(n){ return Math.round(n/5)*5; }
-  function etaOf(p){ return Math.round(p.driveKm*4 + 3); }
-  function distLabel(m){ return m >= 1000 ? (m/1000).toFixed(1)+' กม.' : m+' ม.'; }
-  function isReady(p){ return kgOf(p) >= THRESHOLD; }
-
-  var views = {
-    resident:  document.getElementById('view-resident'),
-    collector: document.getElementById('view-collector')
+  var SALENG = {
+    name:'พี่สมชาย ใจดี', vehicle:'สามล้อเครื่อง', plate:'3กข 1234 กทม.', rating:4.8, count:32,
+    reviews:[
+      { who:'นิติฯ หมู่บ้านสวนหลวง', stars:5, tags:['มาตรงเวลา','ชั่งให้ดูต่อหน้า'], text:'รปภ. เช็กทะเบียนรถตรงกับในแอป ให้เข้าได้เลย' },
+      { who:'ร้านกาแฟ ซอยจุฬาฯ 20', stars:5, tags:['รูปตาชั่งชัด','เก็บเรียบร้อย'], text:'ไม่ต้องรอ วางหลังร้านไว้ เงินเข้าก่อนเปิดร้าน' },
+      { who:'บ้านเลขที่ 41', stars:4, tags:['มาสายนิดหน่อย'], text:'โทรบอกก่อนว่าติดฝน ราคาตรงกับที่แอปบอก' }
+    ]
   };
+
+  var DAYS  = ['วันนี้','พรุ่งนี้','มะรืน'];
+  var SLOTS = ['08–10','11–13','14–16','17–19'];
+  var EVERY = { week:'ทุกสัปดาห์', biweek:'ทุก 2 สัปดาห์', month:'ทุกเดือน' };
+
+  // Resident's draft request — defaults reproduce the slide: ฿80 − ฿30 = ฿50 (saleng ≈ ฿74)
+  var basket = { pet:4, card:3, alu:0, glass:0, gen:2 };
+  var photos = [];
+  var when = { mode:'once', every:'week', day:1, slot:0 };
+  var openHint = null;
+  var rating = { stars:0, tags:{} };
+
+  // Shared job list — what the resident sends shows up in the collector's queue
+  var jobs = [
+    { id:'j1', who:'ร้านกาแฟ ซอยจุฬาฯ 20', place:'วางหลังร้าน ข้างถังน้ำแข็ง', km:1.2, slot:'พรุ่งนี้ 08–10', recur:'ทุกสัปดาห์',
+      counts:{ pet:2, card:2, alu:0, glass:0, gen:0 }, status:'new', photos:[] },
+    { id:'j2', who:'นิติฯ หมู่บ้านสวนหลวง', place:'ห้องเก็บของหน้าป้อม รปภ.', km:2.3, slot:'พรุ่งนี้ 11–13', recur:'ทุก 2 สัปดาห์',
+      counts:{ pet:6, card:4, alu:2, glass:0, gen:0 }, status:'new', photos:[] },
+    { id:'j3', who:'บ้านเดี่ยว ซอยเจริญเมือง', place:'หน้าประตูรั้ว', km:3.1, slot:'มะรืน 17–19', recur:'',
+      counts:{ pet:1, card:0, alu:0, glass:0, gen:3 }, status:'new', photos:[] }
+  ];
+  var myJob = null;
+  var weigh = null; // { id, kg:{}, scale:null|'demo'|url }
+  var seq = 0;
+
+  function $(id){ return document.getElementById(id); }
+  function baht(n){ return '฿' + Math.round(n).toLocaleString('en-US'); }
+  function now(){ var d = new Date(); return ('0'+d.getHours()).slice(-2) + ':' + ('0'+d.getMinutes()).slice(-2); }
+
+  function estKg(counts){
+    var kg = {};
+    RECYC.forEach(function(k){ kg[k] = counts[k] * BY[k].kgPer; });
+    return kg;
+  }
+  // goods = paid to household · fee = general-waste haul · net = household receives · earn = saleng margin + fee
+  function quote(kg, bags){
+    var goods = 0, earn = 0;
+    RECYC.forEach(function(k){ goods += kg[k] * BY[k].buy; earn += kg[k] * (BY[k].shop - BY[k].buy); });
+    var fee = bags * FEE;
+    return { goods:goods, fee:fee, net:goods - fee, earn:earn + fee };
+  }
+  function jobQuote(j){ return quote(j.weighed || estKg(j.counts), j.counts.gen); }
+  function totalKg(kg){ return RECYC.reduce(function(s,k){ return s + kg[k]; }, 0); }
+
+  /* ── role switching ───────────────────────────── */
+  var views = { resident:$('view-resident'), collector:$('view-collector') };
   var frame = document.querySelector('.frame');
   var role = 'resident';
 
@@ -315,213 +268,463 @@
       btn.style.color      = on ? 'var(--ink)' : 'var(--muted)';
       btn.style.boxShadow  = on ? 'var(--shadow)' : 'none';
     });
-    frame.scrollTop = 0;
+    frame.scrollTop = 0; window.scrollTo(0, 0);
     render();
   }
   Array.prototype.forEach.call(document.querySelectorAll('.role-btn'), function(b){
     b.addEventListener('click', function(){ setRole(b.dataset.role); });
   });
 
-  function renderResident(){
-    var kg = kgOf(home);
-    var max = Math.max(20, Math.ceil(kg/5)*5);
-    var met = kg >= THRESHOLD;
+  /* ── resident: compose ───────────────────────── */
+  function itemRow(it){
+    var n = basket[it.k], on = n > 0, gen = it.k === 'gen';
+    var line;
+    if (gen) line = on ? '<span style="color:var(--cta-ink)">ค่าขน −' + baht(n*FEE) + '</span>' : 'ถุงละ ฿' + FEE + ' ค่าขนไปจุดทิ้ง กทม.';
+    else line = on ? '≈ ' + (n*it.kgPer) + ' กก. · <span style="color:var(--accent-ink)">' + baht(n*it.kgPer*it.buy) + '</span>'
+                   : '≈ ' + it.kgPer + ' กก./' + it.unit + ' · ฿' + it.buy.toFixed(2) + '/กก.';
+    var hint = openHint === it.k
+      ? '<div class="col-span-full mt-2 grid grid-cols-2 gap-1.5 text-[11.5px] leading-snug">' +
+          '<span class="rounded-lg px-2.5 py-1.5" style="background:var(--accent-soft);color:var(--accent-ink)">✓ รับ: ' + it.ok + '</span>' +
+          '<span class="rounded-lg px-2.5 py-1.5" style="background:var(--warn-soft);color:var(--warn)">✗ ไม่รับ: ' + it.no + '</span>' +
+        '</div>' : '';
+    return '<li class="rounded-xl bg-surface border px-3 py-2.5 grid grid-cols-[auto_1fr_auto] items-center gap-3" style="border-color:' +
+        (on ? (gen ? 'var(--cta)' : 'var(--accent)') : 'var(--line)') + '">' +
+      '<button data-act="hint" data-k="' + it.k + '" title="ดูรูปตัวอย่าง" class="w-12 h-12 rounded-xl grid place-items-center text-[26px] border border-line" style="background:' +
+        (gen ? 'var(--cta-soft)' : 'var(--sunken)') + '">' + it.emoji + '</button>' +
+      '<div class="min-w-0">' +
+        '<p class="text-[14px] font-semibold leading-tight">' + it.th + ' <span class="text-[11px] font-normal text-muted">' + it.sub + '</span></p>' +
+        '<p class="text-[11.5px] text-muted leading-snug mt-0.5">' + line + '</p>' +
+      '</div>' +
+      '<div class="flex items-center gap-1">' +
+        '<button data-act="dec" data-k="' + it.k + '" aria-label="ลด ' + it.th + '" class="w-9 h-9 rounded-lg border border-line bg-sunken text-[18px] text-ink2"' + (n ? '' : ' disabled style="opacity:.4"') + '>−</button>' +
+        '<span class="w-12 text-center leading-tight"><b class="mono text-[16px]">' + n + '</b><span class="block text-[10.5px] text-muted">' + it.unit + '</span></span>' +
+        '<button data-act="inc" data-k="' + it.k + '" aria-label="เพิ่ม ' + it.th + '" class="w-9 h-9 rounded-lg border text-[18px]" style="border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink)">+</button>' +
+      '</div>' + hint +
+    '</li>';
+  }
 
-    document.getElementById('r-kg').textContent = kg.toFixed(1);
-    document.getElementById('seg-pet').style.width  = (home.mix.pet/max*100)  + '%';
-    document.getElementById('seg-alu').style.width  = (home.mix.alu/max*100)  + '%';
-    document.getElementById('seg-card').style.width = (home.mix.card/max*100) + '%';
-    document.getElementById('r-marker').style.left  = (THRESHOLD/max*100) + '%';
+  function chip(label, on, attrs){
+    return '<button ' + attrs + ' class="rounded-lg px-3 py-2 text-[12.5px] font-semibold border" style="' +
+      (on ? 'border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink)'
+          : 'border-color:var(--line);background:var(--sunken);color:var(--ink-2)') + '">' + label + '</button>';
+  }
+  function slotLabel(){ return DAYS[when.day] + ' ' + SLOTS[when.slot]; }
 
-    document.getElementById('lg-pet').textContent  = home.mix.pet.toFixed(1)  + ' kg';
-    document.getElementById('lg-alu').textContent  = home.mix.alu.toFixed(1)  + ' kg';
-    document.getElementById('lg-card').textContent = home.mix.card.toFixed(1) + ' kg';
-
-    var pill = document.getElementById('r-pill');
-    if (met){
-      pill.textContent = 'พร้อมให้ซาเล้งมารับ';
-      pill.style.background = 'var(--accent-soft)';
-      pill.style.color = 'var(--accent-ink)';
-    } else {
-      pill.textContent = 'กำลังสะสม';
-      pill.style.background = 'var(--warn-soft)';
-      pill.style.color = 'var(--warn)';
+  function renderWhen(){
+    var h = '<div class="grid grid-cols-2 gap-1 p-1 rounded-xl bg-sunken border border-line">' +
+      ['once','recur'].map(function(m){
+        var on = when.mode === m;
+        return '<button data-act="mode" data-v="' + m + '" class="rounded-lg py-2 text-[13px] font-semibold" style="background:' +
+          (on ? 'var(--surface)' : 'transparent') + ';color:' + (on ? 'var(--ink)' : 'var(--muted)') + ';box-shadow:' + (on ? 'var(--shadow)' : 'none') + '">' +
+          (m === 'once' ? 'ครั้งเดียว' : '🔁 รอบประจำ') + '</button>';
+      }).join('') + '</div>';
+    if (when.mode === 'recur'){
+      h += '<div class="flex flex-wrap gap-1.5">' + Object.keys(EVERY).map(function(e){
+        return chip(EVERY[e], when.every === e, 'data-act="every" data-v="' + e + '"');
+      }).join('') + '</div>';
     }
+    h += '<div><p class="text-[11.5px] text-muted mb-1.5">' + (when.mode === 'recur' ? 'เริ่มรอบแรก' : 'วัน') + '</p><div class="flex flex-wrap gap-1.5">' +
+      DAYS.map(function(d,i){ return chip(d, when.day === i, 'data-act="day" data-v="' + i + '"'); }).join('') + '</div></div>';
+    h += '<div><p class="text-[11.5px] text-muted mb-1.5">ช่วงเวลาที่สะดวก</p><div class="grid grid-cols-4 gap-1.5">' +
+      SLOTS.map(function(s,i){ return chip('<span class="mono">' + s + '</span>', when.slot === i, 'data-act="slot" data-v="' + i + '"'); }).join('') + '</div></div>';
+    $('r-when').innerHTML = h;
+  }
 
-    var short = Math.round((THRESHOLD - kg) * 10) / 10;
-    var status = document.getElementById('r-status');
-    var statusEn = document.getElementById('r-status-en');
-    if (short > 0){
-      status.innerHTML = 'ขาดอีก <b class="mono">' + short.toFixed(1) + ' kg</b> ก่อนระบบจะเรียกซาเล้งเข้ามาเก็บ';
-      status.style.color = 'var(--ink)';
-      statusEn.textContent = short.toFixed(1) + ' kg needed until a Saleng pickup is triggered.';
-    } else {
-      var over = Math.round((kg - THRESHOLD) * 10) / 10;
-      status.innerHTML = 'ถึงเกณฑ์เรียกรถแล้ว เกินมา <b class="mono">' + over.toFixed(1) + ' kg</b> · ทิ้งเพิ่มได้ถึง 22:00 น.';
-      status.style.color = 'var(--accent-ink)';
-      statusEn.textContent = 'Pickup threshold reached — the point stays open for more drop-offs.';
-    }
+  function summaryChips(counts){
+    var h = RECYC.filter(function(k){ return counts[k] > 0; }).map(function(k){
+      return '<span class="text-[12px] px-3 py-1 rounded-full" style="background:var(--accent-soft);color:var(--accent-ink)">' + BY[k].th + '</span>';
+    }).join('');
+    if (counts.gen) h += '<span class="text-[12px] px-3 py-1 rounded-full" style="background:var(--cta-soft);color:var(--cta-ink)">ขยะทั่วไป ' + counts.gen + ' ถุง</span>';
+    return h;
+  }
+  function moneyRows(q, netLabel){
+    var neg = q.net < 0;
+    return '<div class="flex flex-col gap-2 text-[13.5px]">' +
+        '<div class="flex justify-between"><span class="text-ink2">ค่าของ</span><b class="mono">' + baht(q.goods) + '</b></div>' +
+        (q.fee ? '<div class="flex justify-between"><span class="text-ink2">ค่าขนขยะทั่วไป</span><b class="mono" style="color:var(--cta-ink)">−' + baht(q.fee) + '</b></div>' : '') +
+      '</div>' +
+      '<div class="flex items-end justify-between border-t-2 pt-3" style="border-color:var(--line-strong)">' +
+        '<span class="disp text-[15px] font-bold">' + (neg ? 'ต้องจ่ายสุทธิ' : netLabel) + '</span>' +
+        '<span class="disp text-[34px] font-bold leading-none" style="color:' + (neg ? 'var(--cta-ink)' : 'var(--accent-ink)') + '">' + baht(Math.abs(q.net)) + '</span>' +
+      '</div>';
+  }
 
-    document.getElementById('r-badge').classList.toggle('hidden', !met);
+  function renderSummary(){
+    var any = ITEMS.some(function(it){ return basket[it.k] > 0; });
+    var q = quote(estKg(basket), basket.gen);
+    var plan = when.mode === 'recur' ? EVERY[when.every] + ' · เริ่ม' + slotLabel() : slotLabel();
+    $('r-summary').innerHTML =
+      '<div><p class="text-[11px] text-muted">ตรวจก่อนกด</p><h2 class="disp text-[19px] font-bold leading-tight">สรุปก่อนเรียก</h2></div>' +
+      (any ? '<div class="flex flex-wrap gap-1.5">' + summaryChips(basket) + '</div>'
+           : '<p class="text-[12.5px] text-muted">ยังไม่ได้เลือกของ — กด + ด้านบน</p>') +
+      '<p class="text-[11.5px] text-ink2">🕑 ' + plan + (photos.length ? ' · 📷 ' + photos.length + ' รูป' : '') + ($('r-door').checked ? ' · วางหน้าบ้าน' : ' · รอส่งของกับมือ') + '</p>' +
+      moneyRows(q, 'ได้รับสุทธิ') +
+      '<button id="btn-call" class="w-full rounded-xl py-3.5 disp text-[16px] font-bold transition-transform active:scale-[.985]" style="background:var(--cta);color:var(--on-cta)' +
+        (any ? '' : ';opacity:.45') + '"' + (any ? '' : ' disabled') + '>' + (when.mode === 'recur' ? 'เรียกซาเล้ง · ตั้งรอบประจำ' : 'เรียกซาเล้ง') + '</button>' +
+      '<p class="text-[11px] text-muted leading-snug -mt-1">ราคานี้ประเมินจากจำนวนถุง · เงินจริงคิดจากน้ำหนักที่ชั่งหน้าบ้าน พร้อมรูปตาชั่งเป็นหลักฐาน แล้วโอนเข้าพร้อมเพย์</p>';
+  }
 
-    var enroute = document.getElementById('r-enroute');
-    enroute.classList.toggle('hidden', home.job !== 'enroute');
-    enroute.classList.toggle('flex', home.job === 'enroute');
-    if (home.job === 'enroute') document.getElementById('r-eta').textContent = etaOf(home);
-    document.getElementById('btn-share').classList.toggle('hidden', mine.count === 0);
-
-    var mineEl = document.getElementById('r-mine');
-    if (mine.count === 0){
-      mineEl.textContent = 'วันนี้คุณยังไม่ได้เพิ่มขยะเข้าจุดนี้';
-    } else {
-      mineEl.innerHTML = 'คุณเพิ่มแล้ว <b class="mono">' + (mine.count*2).toFixed(1) + ' kg</b> วันนี้ · คิดเป็น ' +
-        Math.round(mine.count*2 / kg * 100) + '% ของกองนี้';
-    }
-
-    var myKg = mine.count * 2;
-    var myBaht = mine.count * (MY_BAGS.pet*MATS.pet.price + MY_BAGS.alu*MATS.alu.price + MY_BAGS.card*MATS.card.price);
-    document.getElementById('r-myvalue').textContent = myKg.toFixed(1) + ' kg ≈ ฿' + myBaht.toFixed(0);
-
-    document.getElementById('r-others').innerHTML = points.filter(function(p){
-      return p.id !== home.id && p.walkM <= 900;
-    }).sort(function(a,b){ return a.walkM - b.walkM; }).map(function(p){
-      var k = kgOf(p), pct = Math.min(100, k/THRESHOLD*100), ok = k >= THRESHOLD;
-      return '<li class="rounded-xl bg-surface border border-line px-4 py-3 flex items-center gap-3">' +
-        '<div class="flex-1 min-w-0">' +
-          '<p class="text-[13.5px] font-medium truncate">' + p.name + '</p>' +
-          '<p class="text-[11px] text-muted">' + distLabel(p.walkM) + ' · เดิน ' + Math.round(p.walkM/70) + ' น.</p>' +
-        '</div>' +
-        '<div class="w-20 shrink-0">' +
-          '<div class="h-1.5 rounded-full bg-sunken border border-line overflow-hidden">' +
-            '<div style="width:' + pct + '%;height:100%;background:' + (ok ? 'var(--accent)' : 'var(--warn)') + '"></div>' +
-          '</div>' +
-          '<p class="mono text-[10.5px] mt-1 text-right" style="color:' + (ok ? 'var(--accent-ink)' : 'var(--muted)') + '">' +
-            k.toFixed(1) + ' / 15 kg</p>' +
-        '</div>' +
-      '</li>';
+  function renderPhotos(){
+    var box = $('r-photos');
+    box.classList.toggle('hidden', !photos.length);
+    box.innerHTML = photos.map(function(src, i){
+      return '<span class="relative aspect-square rounded-lg overflow-hidden border border-line">' +
+        '<img src="' + src + '" alt="รูปแนบ ' + (i+1) + '" class="w-full h-full object-cover">' +
+        '<button data-act="rmphoto" data-i="' + i + '" aria-label="ลบรูป" class="absolute top-0.5 right-0.5 w-5 h-5 rounded-full text-[11px] leading-none" style="background:var(--ink);color:var(--canvas)">×</button></span>';
     }).join('');
   }
 
   function renderPrices(){
-    document.getElementById('price-body').innerHTML = Object.keys(MATS).map(function(k, i){
-      var m = MATS[k];
+    $('price-body').innerHTML = RECYC.map(function(k, i){
+      var m = BY[k];
       var flat = m.trend === 0, up = m.trend > 0;
       var col = flat ? 'var(--muted)' : (up ? 'var(--accent-ink)' : 'var(--warn)');
-      var sign = flat ? '±0.00' : (up ? '▲ +' : '▼ −') + Math.abs(m.trend).toFixed(2);
+      var sign = flat ? '±0' : (up ? '▲' : '▼');
       return '<tr' + (i ? ' class="border-t border-line"' : '') + '>' +
-        '<td class="px-4 py-3">' +
-          '<span class="flex items-center gap-2">' +
-            '<i class="w-2 h-2 rounded-sm shrink-0" style="background:var(--mat-' + k + ')"></i>' +
-            '<span><span class="block leading-tight">' + m.th + '</span>' +
-            '<span class="block text-[10.5px] text-muted leading-tight">' + m.en + (m.note ? ' · ' + m.note : '') + '</span></span>' +
-          '</span>' +
-        '</td>' +
-        '<td class="px-3 py-3 mono text-right">' + m.price.toFixed(2) + '</td>' +
-        '<td class="px-4 py-3 mono text-[11.5px] text-right" style="color:' + col + '">' + sign + '</td>' +
+        '<td class="px-4 py-2.5"><span class="flex items-center gap-2"><span class="text-[16px]">' + m.emoji + '</span>' +
+          '<span class="leading-tight">' + m.th + '<span class="block text-[10.5px] text-muted">' + m.sub + '</span></span></span></td>' +
+        '<td class="px-3 py-2.5 mono text-right font-medium" style="color:var(--accent-ink)">' + m.buy.toFixed(2) + '</td>' +
+        '<td class="px-4 py-2.5 mono text-right text-muted">' + m.shop.toFixed(2) + ' <span class="text-[10.5px]" style="color:' + col + '">' + sign + '</span></td>' +
       '</tr>';
     }).join('');
   }
 
-  function jobCard(p){
-    var kg = kgOf(p), val = bahtOf(p);
-    var lo = round5(val*0.86), hi = round5(val*1.06);
-    var enroute = p.job === 'enroute';
-    var fresh = p.id === home.id && mine.count > 0;
-
-    var chips = [['pet','PET'],['alu','อะลูฯ'],['card','กระดาษ']].map(function(pair){
-      return '<span class="mono text-[10.5px] px-2 py-0.5 rounded-md border border-line bg-sunken">' +
-        '<i class="inline-block w-1.5 h-1.5 rounded-sm mr-1 align-middle" style="background:var(--mat-' + pair[0] + ')"></i>' +
-        pair[1] + ' ' + p.mix[pair[0]].toFixed(1) + '</span>';
-    }).join('');
-
-    var action = enroute
-      ? '<div class="flex items-center justify-between gap-3 rounded-xl px-4 py-3" style="background:var(--accent-soft)">' +
-          '<span class="text-[13px] font-semibold" style="color:var(--accent-ink)">' +
-            '<i class="pulse-dot inline-block w-2 h-2 rounded-full mr-1.5 align-middle" style="background:var(--accent)"></i>' +
-            'กำลังไป · En Route · ถึงใน ' + etaOf(p) + ' นาที</span>' +
-          '<button data-act="cancel" data-id="' + p.id + '" class="text-[11.5px] underline underline-offset-2 shrink-0" style="color:var(--accent-ink)">ยกเลิก</button>' +
-        '</div>'
-      : '<div class="grid grid-cols-[auto_1fr] gap-2">' +
-          '<button data-act="speak" data-id="' + p.id + '" class="rounded-xl px-4 py-3 text-[14px] font-semibold border border-line bg-sunken text-ink2" title="อ่านงานนี้ให้ฟัง">🔊 ฟัง</button>' +
-          '<button data-act="accept" data-id="' + p.id + '" class="rounded-xl py-3 text-[14px] font-semibold transition-transform active:scale-[.985]" ' +
-            'style="background:var(--accent);color:#fff">รับงาน · Accept</button>' +
-        '</div>';
-
-    return '<li class="rise rounded-2xl bg-surface shadow-card overflow-hidden border" style="border-color:' +
-        (enroute ? 'var(--accent)' : 'var(--line)') + '">' +
-      '<div class="p-4 flex flex-col gap-3">' +
-        '<div class="flex items-start justify-between gap-3">' +
-          '<div class="min-w-0">' +
-            '<h3 class="disp text-[16px] font-bold leading-snug">' + p.name + '</h3>' +
-            '<p class="text-[11.5px] text-muted leading-snug">' + p.place + ' · ขับ ' + p.driveKm.toFixed(1) + ' กม. · ' + etaOf(p) + ' นาที</p>' +
-          '</div>' +
-          '<span class="shrink-0 text-[10.5px] font-semibold px-2 py-1 rounded-full whitespace-nowrap" ' +
-            'style="background:var(--accent-soft);color:var(--accent-ink)">คุ้มค่าเที่ยว &gt;15 kg</span>' +
-        '</div>' +
-        (fresh ? '<p class="text-[11px] rounded-lg px-2.5 py-1.5" style="background:var(--warn-soft);color:var(--warn)">อัปเดตใหม่ · มีคนทิ้งเพิ่มที่จุดนี้เมื่อสักครู่</p>' : '') +
-        '<div class="flex items-end justify-between gap-3">' +
-          '<div>' +
-            '<p class="text-[10.5px] text-muted leading-tight">ปริมาณสะสม</p>' +
-            '<p class="mono text-[24px] font-medium leading-none">' + kg.toFixed(1) + ' <span class="text-[13px] text-muted">kg</span></p>' +
-          '</div>' +
-          '<div class="text-right">' +
-            '<p class="text-[10.5px] text-muted leading-tight">ประเมินรายได้</p>' +
-            '<p class="mono text-[18px] font-medium leading-tight" style="color:var(--accent-ink)">฿' + lo + '–' + hi + '</p>' +
-          '</div>' +
-        '</div>' +
-        '<div class="flex flex-wrap gap-1.5">' + chips +
-          '<span class="text-[10.5px] font-semibold px-2 py-0.5 rounded-md" style="background:var(--accent-soft);color:var(--accent-ink)">✓ แยกมาแล้ว</span>' +
-        '</div>' +
-      '</div>' +
-      '<div class="px-4 pb-4">' + action + '</div>' +
-    '</li>';
+  /* ── resident: tracking ──────────────────────── */
+  function scaleSvg(kg){
+    return '<svg viewBox="0 0 160 96" class="w-full h-full" role="img" aria-label="รูปตาชั่ง ' + kg.toFixed(1) + ' กก.">' +
+      '<rect width="160" height="96" fill="var(--sunken)"/>' +
+      '<rect x="22" y="62" width="116" height="18" rx="5" fill="var(--surface)" stroke="var(--line-strong)"/>' +
+      '<rect x="44" y="34" width="40" height="28" rx="4" fill="var(--mat-card)" opacity=".75"/>' +
+      '<rect x="88" y="40" width="26" height="22" rx="4" fill="var(--mat-pet)" opacity=".6"/>' +
+      '<rect x="96" y="8" width="54" height="22" rx="4" fill="var(--ink)"/>' +
+      '<text x="123" y="23" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="var(--accent)">' + kg.toFixed(1) + ' kg</text>' +
+      '<text x="8" y="14" font-family="IBM Plex Mono,monospace" font-size="7" fill="var(--muted)">' + now() + '</text>' +
+    '</svg>';
+  }
+  function scaleImg(j){
+    var kg = totalKg(j.weighed);
+    return j.scale && j.scale !== 'demo'
+      ? '<img src="' + j.scale + '" alt="รูปตาชั่ง" class="w-full h-full object-cover">'
+      : scaleSvg(kg);
   }
 
-  function waitingRow(p){
-    var kg = kgOf(p), short = (THRESHOLD - kg).toFixed(1);
-    return '<li class="rounded-xl border border-line px-4 py-3 flex items-center justify-between gap-3" style="background:var(--sunken)">' +
-      '<div class="min-w-0">' +
-        '<p class="text-[13px] font-medium truncate">' + p.name + '</p>' +
-        '<p class="text-[11px] text-muted">ขับ ' + p.driveKm.toFixed(1) + ' กม. · ขาดอีก ' + short + ' kg</p>' +
+  function profileCard(compact){
+    var reviews = SALENG.reviews.slice(0, compact ? 2 : 3).map(function(r){
+      return '<li class="rounded-lg bg-sunken border border-line px-3 py-2">' +
+        '<p class="text-[11.5px] flex justify-between gap-2"><b>' + r.who + '</b><span style="color:var(--warn)">' + '★★★★★'.slice(0, r.stars) + '</span></p>' +
+        '<p class="flex flex-wrap gap-1 mt-1">' + r.tags.map(function(t){
+          return '<span class="text-[10.5px] px-1.5 py-0.5 rounded" style="background:var(--accent-soft);color:var(--accent-ink)">' + t + '</span>';
+        }).join('') + '</p>' +
+        '<p class="text-[11.5px] text-ink2 mt-1 leading-snug">“' + r.text + '”</p></li>';
+    }).join('');
+    return '<div class="flex items-center gap-3">' +
+        '<span class="w-14 h-14 rounded-full grid place-items-center text-[28px] shrink-0 border-2" style="background:var(--accent-soft);border-color:var(--accent)">🧑🏽</span>' +
+        '<span class="min-w-0">' +
+          '<span class="block disp text-[16px] font-bold leading-tight">' + SALENG.name + '</span>' +
+          '<span class="block text-[12px] text-ink2">' + SALENG.vehicle + ' · <span class="mono font-semibold px-1 rounded border border-lineStrong">' + SALENG.plate + '</span></span>' +
+          '<span class="block text-[11.5px] font-semibold" style="color:var(--accent-ink)">✓ ยืนยันตัวตน · สมาคมซาเล้งฯ · <span style="color:var(--warn)">★ ' + SALENG.rating + '</span> <span class="font-normal text-muted">(' + SALENG.count + ' รีวิว)</span></span>' +
+        '</span>' +
       '</div>' +
-      '<span class="mono text-[12px] shrink-0 text-muted">' + kg.toFixed(1) + ' / 15</span>' +
-    '</li>';
+      '<ul class="flex flex-col gap-1.5">' + reviews + '</ul>';
+  }
+
+  function renderTrack(){
+    var j = myJob, st = j.status;
+    var step = st === 'done' ? 3 : (st === 'accepted' ? 2 : 1);
+    var steps = [
+      ['ส่งคำขอแล้ว', j.t1],
+      ['ซาเล้งรับงาน', j.t2],
+      ['ชั่งแล้ว · โอนเงิน', j.t3]
+    ];
+    var stepper = '<ol class="grid grid-cols-3 gap-1.5">' + steps.map(function(s, i){
+      var done = i < step, cur = i === step - 1;
+      return '<li class="flex flex-col gap-1">' +
+        '<span class="h-1.5 rounded-full" style="background:' + (done ? 'var(--accent)' : 'var(--line)') + '"></span>' +
+        '<span class="text-[11.5px] font-semibold leading-tight" style="color:' + (done ? 'var(--ink)' : 'var(--muted)') + '">' + (i+1) + ' · ' + s[0] + '</span>' +
+        '<span class="text-[10.5px] leading-tight" style="color:' + (done ? 'var(--accent-ink)' : 'var(--muted)') + '">' +
+          (done ? '📩 SMS ' + s[1] : (cur ? '' : 'รอ')) + '</span>' +
+      '</li>';
+    }).join('') + '</ol>';
+
+    var head, body = '';
+    if (step === 1){
+      head = '<p class="disp text-[17px] font-bold">รอซาเล้งในเขตปทุมวันรับงาน</p>' +
+        '<p class="text-[12px] text-muted">ส่ง SMS ให้แล้ว ปิดแอปได้เลย · จะแจ้งอีกครั้งเมื่อมีคนรับ</p>';
+      body = '<p class="text-[11.5px] rounded-lg px-3 py-2 border border-dashed" style="border-color:var(--line-strong);color:var(--muted)">เดโม: สลับไปแท็บ <b>ซาเล้ง</b> แล้วกด <b>รับ</b></p>';
+    } else if (step === 2){
+      head = '<p class="disp text-[17px] font-bold">' + SALENG.name + ' รับงานแล้ว</p>' +
+        '<p class="text-[12px] text-muted">มาช่วง ' + j.slot + ' · ' + (j.door ? 'วางของหน้าบ้านได้เลย ไม่ต้องรอ' : 'รอส่งของกับมือ') + '</p>';
+      body = '<div class="rounded-xl bg-surface border border-line p-3 flex flex-col gap-2.5">' + profileCard(true) + '</div>' +
+        '<div class="grid grid-cols-2 gap-2">' +
+          '<button data-act="call" data-v="app" class="rounded-lg py-2.5 text-[13px] font-semibold" style="background:var(--accent);color:#fff">📞 โทรผ่านแอป</button>' +
+          '<button data-act="call" data-v="sms" class="rounded-lg py-2.5 text-[13px] font-semibold border border-line bg-surface text-ink2">💬 ส่งข้อความ</button>' +
+        '</div><p id="r-callnote" class="hidden text-[11.5px] text-muted text-center"></p>' +
+        '<p class="text-[11.5px] rounded-lg px-3 py-2 border border-dashed" style="border-color:var(--line-strong);color:var(--muted)">เดโม: ฝั่ง <b>ซาเล้ง</b> กด <b>ถึงแล้ว · ชั่งน้ำหนัก</b></p>';
+    } else {
+      var q = jobQuote(j);
+      head = '<p class="disp text-[17px] font-bold">เงินเข้าพร้อมเพย์แล้ว ' + baht(q.net) + '</p>' +
+        '<p class="text-[12px] text-muted">' + now() + ' · โอนเข้า 08x-xxx-5678 · มีรูปตาชั่งเป็นหลักฐาน</p>';
+      var rows = RECYC.filter(function(k){ return j.counts[k] > 0; }).map(function(k){
+        return '<tr class="border-t border-line"><td class="py-1.5">' + BY[k].emoji + ' ' + BY[k].th + '</td>' +
+          '<td class="mono text-right">' + j.weighed[k].toFixed(1) + ' กก.</td>' +
+          '<td class="mono text-right text-muted">× ' + BY[k].buy.toFixed(2) + '</td>' +
+          '<td class="mono text-right">' + baht(j.weighed[k] * BY[k].buy) + '</td></tr>';
+      }).join('');
+      body = '<div class="rounded-xl bg-surface border border-line p-4 flex flex-col gap-3">' +
+          '<div class="grid grid-cols-[96px_1fr] gap-3 items-start">' +
+            '<div class="aspect-[4/3] rounded-lg overflow-hidden border border-line">' + scaleImg(j) + '</div>' +
+            '<p class="text-[11.5px] text-ink2 leading-snug">📷 รูปตาชั่งหน้าบ้าน ' + j.t3 + ' น.<br>ชั่งโดย ' + SALENG.name + '<br>แอปคำนวณเงินให้ ซาเล้งแก้ราคาเองไม่ได้</p>' +
+          '</div>' +
+          '<table class="w-full text-[12.5px]"><tbody>' + rows + '</tbody></table>' +
+          moneyRows(q, 'ได้รับสุทธิ') +
+        '</div>' +
+        '<div class="rounded-xl bg-surface border border-line p-4 flex flex-col gap-2.5">' +
+          '<p class="text-[13px] font-semibold">ให้คะแนนพี่สมชาย · บอกเหตุผลด้วย</p>' +
+          '<div class="flex gap-1">' + [1,2,3,4,5].map(function(n){
+            return '<button data-act="star" data-v="' + n + '" class="text-[26px] leading-none" style="color:' + (n <= rating.stars ? 'var(--warn)' : 'var(--line-strong)') + '" aria-label="' + n + ' ดาว">★</button>';
+          }).join('') + '</div>' +
+          '<div class="flex flex-wrap gap-1.5">' + ['มาตรงเวลา','ชั่งให้ดูต่อหน้า','รูปตาชั่งชัด','เก็บเรียบร้อย','มาสาย','น้ำหนักไม่ตรง'].map(function(t){
+            return chip(t, !!rating.tags[t], 'data-act="tag" data-v="' + t + '"');
+          }).join('') + '</div>' +
+          (rating.stars ? '<p class="text-[11.5px]" style="color:var(--accent-ink)">✓ ส่งรีวิวแล้ว — แสดงบนโปรไฟล์ซาเล้งพร้อมเหตุผล</p>' : '') +
+        '</div>' +
+        (j.recur ? '<p class="text-[12px] rounded-lg px-3 py-2" style="background:var(--accent-soft);color:var(--accent-ink)">🔁 รอบถัดไป: ' + j.recur + ' ช่วง ' + SLOTS[when.slot] + ' · จะ SMS เตือนก่อน 1 วัน</p>' : '') +
+        '<button data-act="again" class="rounded-xl py-3 text-[14px] font-semibold border" style="border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink)">เรียกซาเล้งอีกครั้ง</button>';
+    }
+
+    $('r-track').innerHTML =
+      '<section class="rounded-2xl bg-surface border border-line shadow-card p-5 flex flex-col gap-4">' +
+        '<div class="flex flex-col gap-0.5">' + head + '</div>' + stepper +
+        '<div class="flex flex-wrap gap-1.5">' + summaryChips(j.counts) + '</div>' +
+      '</section>' + body +
+      (step === 1 ? '<button data-act="cancelreq" class="text-[12px] underline underline-offset-2 text-muted self-center">ยกเลิกคำขอ</button>' : '');
+  }
+
+  function renderResident(){
+    var tracking = !!myJob;
+    $('r-tutorial').classList.toggle('hidden', tracking || tutDone);
+    $('r-compose').classList.toggle('hidden', tracking);
+    $('r-track').classList.toggle('hidden', !tracking);
+    $('r-track').classList.toggle('flex', tracking);
+    if (tracking){ renderTrack(); return; }
+    $('r-items').innerHTML = ITEMS.map(itemRow).join('');
+    renderWhen();
+    renderPhotos();
+    renderSummary();
+  }
+
+  views.resident.addEventListener('click', function(e){
+    var b = e.target.closest('button[data-act]');
+    if (b){
+      var a = b.dataset.act, k = b.dataset.k, v = b.dataset.v;
+      if (a === 'inc') basket[k] = Math.min(20, basket[k] + 1);
+      else if (a === 'dec') basket[k] = Math.max(0, basket[k] - 1);
+      else if (a === 'hint') openHint = openHint === k ? null : k;
+      else if (a === 'mode') when.mode = v;
+      else if (a === 'every') when.every = v;
+      else if (a === 'day') when.day = +v;
+      else if (a === 'slot') when.slot = +v;
+      else if (a === 'rmphoto') photos.splice(+b.dataset.i, 1);
+      else if (a === 'cancelreq'){ jobs = jobs.filter(function(x){ return x !== myJob; }); myJob = null; }
+      else if (a === 'again'){ myJob = null; rating = { stars:0, tags:{} }; photos = []; }
+      else if (a === 'star') rating.stars = +v;
+      else if (a === 'tag') rating.tags[v] = !rating.tags[v];
+      else if (a === 'call'){
+        var note = $('r-callnote');
+        note.textContent = v === 'app' ? 'เดโม: จะโทรผ่านแอปหาพี่สมชาย (ไม่เสียค่าโทร ไม่เห็นเบอร์กัน)' : 'เดโม: เปิดแชตกับพี่สมชาย';
+        note.classList.remove('hidden');
+        return;
+      }
+      else return;
+      render();
+      return;
+    }
+    if (e.target.id === 'btn-call') callSaleng();
+  });
+  $('r-door').addEventListener('change', renderSummary);
+  $('r-photo').addEventListener('change', function(){
+    Array.prototype.forEach.call(this.files || [], function(f){
+      try { photos.push(URL.createObjectURL(f)); } catch (err) {}
+    });
+    this.value = '';
+    renderResident();
+  });
+
+  function callSaleng(){
+    var counts = {}; ITEMS.forEach(function(it){ counts[it.k] = basket[it.k]; });
+    myJob = {
+      id:'m' + (++seq), mine:true, who:'บ้านคุณ · ซอยจุฬาฯ 12', door:$('r-door').checked,
+      place:$('r-door').checked ? 'วางหน้าประตูรั้ว · ไม่ต้องรอเจ้าของ' : 'โทรเรียกเจ้าของบ้านเมื่อถึง',
+      km:0.9, slot:slotLabel(), recur:when.mode === 'recur' ? EVERY[when.every] : '',
+      counts:counts, photos:photos.slice(), status:'new', t1:now()
+    };
+    jobs.unshift(myJob);
+    frame.scrollTop = 0; window.scrollTo(0, 0);
+    render();
+  }
+
+  /* ── collector ───────────────────────────────── */
+  function itemsLine(counts){
+    return ['card','pet','alu','glass'].filter(function(k){ return counts[k] > 0; })
+      .map(function(k){ return BY[k].col; }).join(' · ') || 'ขยะทั่วไปอย่างเดียว';
+  }
+  function countsLine(counts){
+    return ['card','pet','alu','glass','gen'].filter(function(k){ return counts[k] > 0; })
+      .map(function(k){ return (k === 'gen' ? 'ขยะทั่วไป ' : '') + counts[k] + ' ' + BY[k].unit + (k === 'gen' ? ' (+฿' + counts[k]*FEE + ')' : ''); }).join(' · ');
   }
 
   function renderCollector(){
-    var jobs = points.filter(isReady).sort(function(a,b){
-      if ((a.job === 'enroute') !== (b.job === 'enroute')) return a.job === 'enroute' ? -1 : 1;
-      return bahtOf(b) - bahtOf(a);
-    });
-    var waiting = points.filter(function(p){ return !isReady(p); })
-      .sort(function(a,b){ return kgOf(b) - kgOf(a); });
+    var done = jobs.filter(function(j){ return j.status === 'done'; });
+    var earned = done.reduce(function(s,j){ return s + jobQuote(j).earn; }, 0);
+    var kg = done.reduce(function(s,j){ return s + totalKg(j.weighed); }, 0);
+    $('c-stats').innerHTML =
+      '<div class="rounded-xl bg-surface border border-line p-3.5"><p class="text-[13px] text-muted">รายได้วันนี้</p>' +
+        '<p class="disp text-[28px] font-bold leading-none mt-1" style="color:var(--accent-ink)">' + baht(earned) + '</p></div>' +
+      '<div class="rounded-xl bg-surface border border-line p-3.5"><p class="text-[13px] text-muted">เก็บแล้ว</p>' +
+        '<p class="disp text-[28px] font-bold leading-none mt-1">' + done.length + ' <span class="text-[15px] text-muted font-semibold">งาน · ' + kg.toFixed(0) + ' กก.</span></p></div>';
 
-    document.getElementById('c-jobs').textContent = jobs.length;
-    document.getElementById('c-kg').textContent = jobs.reduce(function(s,p){ return s + kgOf(p); }, 0).toFixed(1);
-    document.getElementById('c-baht').textContent = '฿' + round5(jobs.reduce(function(s,p){ return s + bahtOf(p); }, 0));
+    // Active (accepted) jobs, or the weigh panel
+    var active = jobs.filter(function(j){ return j.status === 'accepted'; });
+    var h = '';
+    if (weigh){
+      h = weighPanel(jobs.filter(function(j){ return j.id === weigh.id; })[0]);
+    } else if (active.length){
+      h = '<h2 class="eyebrow">งานที่รับแล้ว</h2>' + active.map(function(j){
+        var q = jobQuote(j);
+        return '<article class="rounded-2xl bg-surface border-2 shadow-card p-4 flex flex-col gap-3" style="border-color:var(--accent)">' +
+          '<div><p class="disp text-[20px] font-bold leading-tight">' + j.who + '</p>' +
+            '<p class="text-[15px] text-ink2 leading-snug">' + j.place + '</p>' +
+            '<p class="text-[14px] text-muted">' + j.slot + ' · ' + j.km.toFixed(1) + ' กม. · ได้ประมาณ <b style="color:var(--accent-ink)">' + baht(q.earn) + '</b></p></div>' +
+          '<div class="grid grid-cols-[auto_1fr] gap-2">' +
+            '<button data-act="callc" class="rounded-xl px-4 h-14 text-[17px] font-semibold border border-line bg-sunken text-ink2">📞</button>' +
+            '<button data-act="weigh" data-id="' + j.id + '" class="rounded-xl h-14 disp text-[18px] font-bold" style="background:var(--accent);color:#fff">ถึงแล้ว · ชั่งน้ำหนัก</button>' +
+          '</div><p id="c-callnote" class="hidden text-[13px] text-muted text-center"></p>' +
+        '</article>';
+      }).join('');
+    }
+    $('c-active').innerHTML = h;
 
-    document.getElementById('c-feed').innerHTML = jobs.length
-      ? jobs.map(jobCard).join('')
-      : '<li class="rounded-xl border border-line px-4 py-6 text-center text-[12.5px] text-muted" style="background:var(--sunken)">ยังไม่มีจุดไหนแตะ 15 กก. ตอนนี้</li>';
-    document.getElementById('c-waiting').innerHTML = waiting.length
-      ? waiting.map(waitingRow).join('')
-      : '<li class="rounded-xl border border-line px-4 py-4 text-center text-[12px] text-muted" style="background:var(--sunken)">ทุกจุดถึงเกณฑ์หมดแล้ว</li>';
+    // One new job at a time, big text, only รับ / ข้าม (slide 6)
+    var fresh = jobs.filter(function(j){ return j.status === 'new'; });
+    var skipped = jobs.filter(function(j){ return j.status === 'skipped'; }).length;
+    var n = '';
+    if (weigh){ n = ''; }
+    else if (fresh.length){
+      var j = fresh[0], q = jobQuote(j);
+      n = '<article class="rise rounded-[22px] bg-surface border border-line shadow-card p-5 flex flex-col gap-4">' +
+        '<div class="flex items-center justify-between gap-2">' +
+          '<span class="text-[13px] text-muted">งานใหม่ · 1 จาก ' + fresh.length + '</span>' +
+          (j.mine ? '<span class="text-[12px] font-semibold px-2 py-0.5 rounded-full" style="background:var(--cta-soft);color:var(--cta-ink)">เพิ่งเรียกมา</span>' : '') +
+        '</div>' +
+        '<div><h2 class="disp text-[28px] font-bold leading-tight">งานใหม่</h2>' +
+          '<p class="text-[19px] text-ink2 leading-snug mt-1">' + itemsLine(j.counts) + '</p>' +
+          '<p class="text-[14px] text-muted mt-0.5">' + countsLine(j.counts) + '</p></div>' +
+        '<div class="grid grid-cols-2 gap-2 text-[15px]">' +
+          '<div class="rounded-xl bg-sunken border border-line px-3 py-2"><p class="text-[12px] text-muted">ระยะทาง</p><p class="font-semibold">' + j.km.toFixed(1) + ' กม.</p></div>' +
+          '<div class="rounded-xl bg-sunken border border-line px-3 py-2"><p class="text-[12px] text-muted">เวลา</p><p class="font-semibold">' + j.slot + '</p></div>' +
+        '</div>' +
+        '<p class="text-[14px] text-ink2 -mt-1">📍 ' + j.who + ' · ' + j.place + (j.recur ? ' · 🔁 ' + j.recur : '') + '</p>' +
+        (j.photos.length ? '<div class="grid grid-cols-4 gap-1.5">' + j.photos.slice(0,4).map(function(s){
+            return '<img src="' + s + '" alt="รูปของที่ลูกค้าแนบ" class="aspect-square w-full object-cover rounded-lg border border-line">'; }).join('') + '</div>' : '') +
+        '<div><p class="text-[16px] text-ink2">ได้ประมาณ</p>' +
+          '<p class="disp text-[60px] font-bold leading-none tracking-tight" style="color:var(--accent-ink)">' + baht(q.earn) + '</p>' +
+          '<p class="text-[12.5px] text-muted mt-1">ขายร้าน − จ่ายลูกค้า' + (q.fee ? ' + ค่าขนขยะทั่วไป ' + baht(q.fee) : '') + ' · ก่อนหักน้ำมัน</p></div>' +
+        '<button data-act="speak" data-id="' + j.id + '" class="rounded-full py-3 text-[17px] font-bold flex items-center justify-center gap-2" style="background:var(--accent-soft);color:var(--accent-ink)">▷ ฟังเสียง</button>' +
+        '<div class="grid grid-cols-2 gap-3 pt-1">' +
+          '<button data-act="skip" data-id="' + j.id + '" class="rounded-2xl h-16 disp text-[22px] font-bold border-2 bg-surface text-ink" style="border-color:var(--ink)">ข้าม</button>' +
+          '<button data-act="accept" data-id="' + j.id + '" class="rounded-2xl h-16 disp text-[22px] font-bold transition-transform active:scale-[.985]" style="background:var(--accent-ink);color:var(--canvas)">รับ</button>' +
+        '</div>' +
+      '</article>';
+    } else {
+      n = '<div class="rounded-2xl border border-line px-4 py-8 text-center flex flex-col gap-1" style="background:var(--sunken)">' +
+        '<p class="disp text-[20px] font-bold">ยังไม่มีงานใหม่</p>' +
+        '<p class="text-[13px] text-muted">ลองสลับไปแท็บผู้ทิ้งแล้วกด “เรียกซาเล้ง”</p></div>';
+    }
+    if (!weigh && skipped) n += '<button data-act="unskip" class="text-[14px] underline underline-offset-2 text-muted self-center">ดูงานที่ข้ามอีกครั้ง (' + skipped + ')</button>';
+    $('c-new').innerHTML = n;
+
+    $('c-profile').innerHTML = profileCard(false);
+
+    var badge = $('tab-badge'), cnt = fresh.length;
+    badge.textContent = cnt;
+    badge.classList.toggle('hidden', !cnt);
   }
 
-  document.getElementById('c-feed').addEventListener('click', function(e){
-    var btn = e.target.closest('button[data-act]');
-    if (!btn) return;
-    var p = points.filter(function(x){ return x.id === btn.dataset.id; })[0];
-    if (btn.dataset.act === 'speak'){ speak(sayJob(p)); return; }
-    p.job = btn.dataset.act === 'accept' ? 'enroute' : null;
+  function weighPanel(j){
+    var kg = weigh.kg, q = quote(kg, j.counts.gen);
+    var rows = RECYC.filter(function(k){ return j.counts[k] > 0; }).map(function(k){
+      var it = BY[k];
+      return '<li class="rounded-xl bg-sunken border border-line px-3 py-2.5 grid grid-cols-[1fr_auto] items-center gap-3">' +
+        '<div><p class="text-[17px] font-semibold leading-tight">' + it.emoji + ' ' + it.col + '</p>' +
+          '<p class="text-[13px] text-muted">฿' + it.buy.toFixed(2) + '/กก. · ' + baht(kg[k]*it.buy) + '</p></div>' +
+        '<div class="flex items-center gap-1.5">' +
+          '<button data-act="kg-" data-k="' + k + '" class="w-11 h-11 rounded-lg border border-line bg-surface text-[20px]">−</button>' +
+          '<span class="w-16 text-center mono text-[19px] font-medium">' + kg[k].toFixed(1) + '<span class="block text-[11px] text-muted">กก.</span></span>' +
+          '<button data-act="kg+" data-k="' + k + '" class="w-11 h-11 rounded-lg border text-[20px]" style="border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink)">+</button>' +
+        '</div></li>';
+    }).join('');
+    var photo = weigh.scale
+      ? '<div class="grid grid-cols-[120px_1fr] gap-3 items-center"><div class="aspect-[4/3] rounded-lg overflow-hidden border border-line">' +
+          (weigh.scale === 'demo' ? scaleSvg(totalKg(kg)) : '<img src="' + weigh.scale + '" alt="รูปตาชั่ง" class="w-full h-full object-cover">') +
+        '</div><p class="text-[14px] font-semibold" style="color:var(--accent-ink)">✓ แนบรูปตาชั่งแล้ว<br><span class="text-[12.5px] font-normal text-muted">ลูกค้าจะเห็นรูปนี้ในใบเสร็จ</span></p></div>'
+      : '<div class="grid grid-cols-2 gap-2">' +
+          '<label class="cursor-pointer rounded-xl h-14 grid place-items-center text-[16px] font-bold border-2 border-dashed" style="border-color:var(--accent);color:var(--accent-ink)">📷 ถ่ายรูปตาชั่ง' +
+            '<input id="c-scale" type="file" accept="image/*" capture="environment" class="sr-only"></label>' +
+          '<button data-act="demoscale" class="rounded-xl h-14 text-[14px] font-semibold border border-line bg-sunken text-ink2">ใช้รูปตัวอย่าง (เดโม)</button>' +
+        '</div>';
+    return '<article class="rounded-2xl bg-surface border-2 shadow-card p-4 flex flex-col gap-4" style="border-color:var(--accent)">' +
+      '<div><p class="text-[13px] text-muted">ชั่งหน้าบ้าน · ' + j.who + '</p><h2 class="disp text-[24px] font-bold leading-tight">ชั่งน้ำหนัก</h2></div>' +
+      '<ul class="flex flex-col gap-2">' + rows + '</ul>' +
+      (j.counts.gen ? '<p class="text-[14px] rounded-lg px-3 py-2" style="background:var(--cta-soft);color:var(--cta-ink)">🗑️ ขยะทั่วไป ' + j.counts.gen + ' ถุง · ลูกค้าจ่ายค่าขน ' + baht(q.fee) + '</p>' : '') +
+      photo +
+      '<div class="rounded-xl bg-sunken border border-line p-3 flex flex-col gap-1.5 text-[15px]">' +
+        '<div class="flex justify-between"><span>ลูกค้าได้สุทธิ (แอปโอนให้)</span><b class="mono">' + baht(q.net) + '</b></div>' +
+        '<div class="flex justify-between"><span>คุณได้ ≈ (ขายร้าน)</span><b class="disp text-[22px]" style="color:var(--accent-ink)">' + baht(q.earn) + '</b></div>' +
+        '<p class="text-[12px] text-muted">แอปคำนวณเงินให้ทันที แก้ราคาเองไม่ได้ ลูกค้าจะไม่หาว่าโกง</p>' +
+      '</div>' +
+      '<button data-act="confirm" class="rounded-2xl h-16 disp text-[20px] font-bold" style="background:var(--accent);color:#fff' + (weigh.scale ? '' : ';opacity:.4') + '"' + (weigh.scale ? '' : ' disabled') + '>ยืนยัน · โอนเงินให้ลูกค้า</button>' +
+      '<button data-act="unweigh" class="text-[14px] underline underline-offset-2 text-muted self-center">กลับ</button>' +
+    '</article>';
+  }
+
+  function findJob(id){ return jobs.filter(function(x){ return x.id === id; })[0]; }
+
+  views.collector.addEventListener('click', function(e){
+    var b = e.target.closest('button[data-act]');
+    if (!b) return;
+    var a = b.dataset.act, j = findJob(b.dataset.id);
+    if (a === 'speak'){ speak(sayJob(j)); return; }
+    if (a === 'callc'){ var n = $('c-callnote'); n.textContent = 'เดโม: โทรผ่านแอปหาลูกค้า (ไม่เห็นเบอร์กัน)'; n.classList.remove('hidden'); return; }
+    if (a === 'skip') j.status = 'skipped';
+    else if (a === 'accept'){ j.status = 'accepted'; j.t2 = now(); }
+    else if (a === 'unskip') jobs.forEach(function(x){ if (x.status === 'skipped') x.status = 'new'; });
+    else if (a === 'weigh') weigh = { id:j.id, kg:estKg(j.counts), scale:null };
+    else if (a === 'unweigh') weigh = null;
+    else if (a === 'kg+' || a === 'kg-'){
+      var k = b.dataset.k;
+      weigh.kg[k] = Math.max(0, Math.round((weigh.kg[k] + (a === 'kg+' ? 0.5 : -0.5)) * 10) / 10);
+    }
+    else if (a === 'demoscale') weigh.scale = 'demo';
+    else if (a === 'confirm'){
+      var w = findJob(weigh.id);
+      w.weighed = weigh.kg; w.scale = weigh.scale; w.status = 'done'; w.t3 = now();
+      weigh = null;
+    }
+    else return;
+    renderCollector();
+  });
+  views.collector.addEventListener('change', function(e){
+    if (e.target.id !== 'c-scale' || !e.target.files || !e.target.files[0]) return;
+    try { weigh.scale = URL.createObjectURL(e.target.files[0]); } catch (err) { weigh.scale = 'demo'; }
     renderCollector();
   });
 
-  // Voice readout for collectors who read slowly (round-3 TC6)
-  function sayJob(p){
-    return p.name + ' ' + p.place + ' · ขับ ' + p.driveKm.toFixed(1) + ' กิโลเมตร · ' +
-      'ขวด ' + p.mix.pet.toFixed(0) + ' กิโล ลัง ' + p.mix.card.toFixed(0) + ' กิโล กระป๋อง ' + p.mix.alu.toFixed(0) + ' กิโล · ' +
-      'แยกมาแล้ว · ได้ประมาณ ' + round5(bahtOf(p)) + ' บาท';
+  // Voice readout for collectors who read slowly (TC2, TC6)
+  function sayJob(j){
+    var parts = ['card','pet','alu','glass','gen'].filter(function(k){ return j.counts[k] > 0; }).map(function(k){
+      return BY[k].col + ' ' + j.counts[k] + ' ' + BY[k].unit;
+    });
+    return 'งานใหม่ ' + parts.join(' ') + ' · ห่าง ' + j.km.toFixed(1) + ' กิโลเมตร · ' + j.slot + ' · ได้ประมาณ ' + Math.round(jobQuote(j).earn) + ' บาท';
   }
   function speak(text){
     try {
@@ -532,11 +735,11 @@
     } catch (e) {}
   }
 
-  // Per-viewer conveniences: big text, theme, tutorial dismissed (round-3 TC4 TC7)
+  /* ── per-viewer conveniences ─────────────────── */
   function load(k){ try { return localStorage.getItem(k); } catch (e) { return null; } }
   function save(k, v){ try { localStorage.setItem(k, v); } catch (e) {} }
 
-  var bigBtn = document.getElementById('btn-big');
+  var bigBtn = $('btn-big');
   function setBig(on){
     frame.classList.toggle('big', on);
     bigBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
@@ -551,7 +754,7 @@
     if (t) document.documentElement.setAttribute('data-theme', t);
     else document.documentElement.removeAttribute('data-theme');
   }
-  document.getElementById('btn-theme').addEventListener('click', function(){
+  $('btn-theme').addEventListener('click', function(){
     var dark = getComputedStyle(document.documentElement).getPropertyValue('--canvas').trim().toLowerCase() !== '#fbfcfa';
     var next = dark ? 'light' : 'dark';
     setTheme(next);
@@ -559,50 +762,18 @@
   });
   setTheme(load('bwl-theme'));
 
-  var tut = document.getElementById('r-tutorial');
-  if (load('bwl-tut') === 'done') tut.classList.add('hidden');
-  document.getElementById('btn-tut').addEventListener('click', function(){
-    tut.classList.add('hidden');
-    save('bwl-tut', 'done');
-  });
-
-  document.getElementById('r-enroute').addEventListener('click', function(e){
-    var btn = e.target.closest('button[data-call]');
-    if (!btn) return;
-    var note = document.getElementById('r-callnote');
-    note.textContent = btn.dataset.call === 'app'
-      ? 'เดโม: จะโทรผ่านแอปหาพี่สมชาย (ไม่เสียค่าโทร)'
-      : 'เดโม: จะโทรเข้าเบอร์ 08x-xxx-1234';
-    note.classList.remove('hidden');
-  });
-
-  document.getElementById('btn-share').addEventListener('click', function(){
-    var text = 'วันนี้ฉันแยกขยะรีไซเคิล ' + (mine.count*2).toFixed(1) + ' กก. ไม่ไปหลุมฝังกลบ ♻️ · Bangkok Waste Lab';
-    var btn = this;
-    if (navigator.share){
-      navigator.share({ text:text }).catch(function(){});
-    } else if (navigator.clipboard){
-      navigator.clipboard.writeText(text).then(function(){ btn.textContent = '✓ คัดลอกข้อความแล้ว'; }, function(){});
-    }
-  });
-
-  document.getElementById('btn-add').addEventListener('click', function(){
-    var wasMet = kgOf(home) >= THRESHOLD;
-    home.mix.pet  = Math.round((home.mix.pet  + MY_BAGS.pet)  * 10) / 10;
-    home.mix.alu  = Math.round((home.mix.alu  + MY_BAGS.alu)  * 10) / 10;
-    home.mix.card = Math.round((home.mix.card + MY_BAGS.card) * 10) / 10;
-    mine.count++;
-    render();
-    if (!wasMet && kgOf(home) >= THRESHOLD){
-      var badge = document.getElementById('r-badge');
-      badge.classList.remove('pop');
-      void badge.offsetWidth;
-      badge.classList.add('pop');
-    }
+  var tutDone = load('bwl-tut2') === 'done';
+  $('btn-tut').addEventListener('click', function(){
+    tutDone = true;
+    save('bwl-tut2', 'done');
+    renderResident();
   });
 
   function render(){
     if (role === 'resident') renderResident(); else renderCollector();
+    var cnt = jobs.filter(function(j){ return j.status === 'new'; }).length;
+    $('tab-badge').textContent = cnt;
+    $('tab-badge').classList.toggle('hidden', !cnt);
   }
 
   renderPrices();
