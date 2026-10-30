@@ -5,11 +5,14 @@
 A single-file prototype for a university entrepreneurship class: an app that connects
 ผู้ทิ้ง (residents with recyclables) to ซาเล้ง (informal collectors) in Bangkok.
 
-Business idea in one line: a saleng makes money on recyclables (ขวด PET, ลัง/กระดาษ,
-กระป๋อง, ขวดแก้ว). If the household also has ขยะทั่วไป / เศษอาหาร, they pay an extra
-**service fee** for the saleng to haul it to a BMA (กทม.) drop-off site. Recyclable pickup
-is only worth the trip above a threshold (currently 15 kg), so waste is pooled at
-walk-to drop points.
+Product name: **จุดทิ้งเคลื่อนที่** — the saleng *is* the drop point: households book a door
+pickup, see the net price before calling, and get paid by PromptPay against a scale photo.
+Source of truth for the current scope is the class deck (slides 4–6, "ความกังวล → สิ่งที่เราออกแบบ").
+
+Money model: the saleng buys recyclables (ขวด PET, ลัง/กระดาษ, กระป๋อง, ขวดแก้ว) at a household
+price below the shop price. ขยะทั่วไป costs the household ฿15/bag for the saleng to haul it to a
+BMA (กทม.) drop-off site. Slide example (keep consistent): ค่าของ ฿80 − ค่าขนขยะทั่วไป ฿30 =
+ได้รับสุทธิ ฿50; the saleng's card shows ได้ประมาณ ฿74 (shop − household + fee, before fuel).
 
 ## Files
 
@@ -39,20 +42,30 @@ No build step, no install. Open either HTML directly in a browser, or serve the 
 
 ### `index.html`
 Tailwind via CDN (`cdn.tailwindcss.com`) with `tailwind.config` mapping the CSS variables
-to utility color names (`bg-surface`, `text-muted`, `border-line`, …). Two `<main>` views
+to utility color names (`bg-surface`, `text-muted`, `border-line`, `cta`, …). Two `<main>` views
 inside the `.frame`, switched by the header tablist; the third tab is a plain link out to
 `wireframe.html`:
-- `#view-resident` — ผู้ทิ้ง: nearest drop point, kg toward the threshold, price table.
-- `#view-collector` — ซาเล้ง: worth-it job queue, accept/en-route state.
+- `#view-resident` — ผู้ทิ้ง. `#r-compose`: item picker (emoji = "รูปตัวอย่าง", tap for
+  รับ/ไม่รับ hint; counted in ถุง/ลัง/มัด), optional photo attach, ครั้งเดียว / รอบประจำ + day +
+  time slot, "วางหน้าบ้านได้" toggle, PromptPay payout, and the **สรุปก่อนเรียก** card (slide 5:
+  chips → ค่าของ → ค่าขนขยะทั่วไป → ได้รับสุทธิ → orange `เรียกซาเล้ง`). `#r-track`: 3-step status
+  (ส่งคำขอ → ซาเล้งรับงาน → ชั่งแล้ว·โอนเงิน) each stamped "📩 SMS hh:mm", saleng profile
+  (photo, name, plate, verified, reviews with reasons), then a receipt with the scale photo,
+  weighed kg × price, net paid, and a star + reason-chip rating.
+- `#view-collector` — ซาเล้ง, big text by default. One **งานใหม่** card at a time (slide 6:
+  items line, distance, time, `ได้ประมาณ ฿…`, `▷ ฟังเสียง`, only `ข้าม` / `รับ`), accepted jobs
+  with `ถึงแล้ว · ชั่งน้ำหนัก`, a weigh panel (±0.5 kg per item, scale photo required before
+  confirm, app computes household net + saleng earnings), and the saleng's own public profile.
 
-One IIFE at the bottom holds all state: `points`, `MATS` prices, `THRESHOLD`, `setRole()`,
-and `render*()` functions that rebuild innerHTML. Both views share the same `points` array,
-so adding waste as a resident immediately changes the collector's queue — that is the
-demo's punchline, keep it working.
-Round-3 extras: header `ก+` (`.frame.big` zoom) and theme toggle, a dismissable first-run
-tutorial, verified saleng ID + call buttons on the en-route card, share button, and a
-`🔊 ฟัง` button on job cards using `speechSynthesis` (th-TH). Per-viewer prefs live in
-`localStorage` (`bwl-*` keys) behind try/catch.
+One IIFE at the bottom holds all state: `ITEMS` (buy/shop prices, `kgPer` unit estimate),
+`FEE`, `basket`, `when`, the shared `jobs` array, `myJob`, `weigh`, and `render*()` functions
+that rebuild innerHTML. Pressing เรียกซาเล้ง pushes a job into `jobs`, so it appears at the
+top of the collector queue; accepting/weighing there advances the resident's tracker — that
+is the demo's punchline, keep it working. `quote(kg, bags)` is the single money formula.
+Extras: header `ก+` (`.frame.big` zoom) and theme toggle, a dismissable tutorial,
+`speechSynthesis` (th-TH) readout, demo scale photo drawn as inline SVG. Per-viewer prefs
+live in `localStorage` (`bwl-*` keys) behind try/catch. Photos use `URL.createObjectURL`
+only — nothing is uploaded.
 
 ### `wireframe.html`
 Round 3, reworked from 10 user tests (`research/user-tests-round3.md`). `#feedback` maps
